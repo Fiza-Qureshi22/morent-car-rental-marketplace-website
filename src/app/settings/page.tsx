@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { FaUser, FaBell, FaCreditCard, FaCar, FaMoon, FaSun } from 'react-icons/fa';
 import { Dialog } from '@headlessui/react';
 import { HiX } from 'react-icons/hi';
+import Image from 'next/image'; // Import Image component
 
 const Settings: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -36,11 +37,16 @@ const Settings: React.FC = () => {
           </h3>
           <div className="text-center mb-4">
             <label htmlFor="profilePicture" className="relative cursor-pointer transition-transform transform hover:scale-110">
-              <img 
-                src={profilePicture || 'default-profile.png'}
-                alt="Profile"
-                className="w-24 h-24 rounded-full object-cover border-2 border-blue-500 mx-auto shadow-lg"
-              />
+              <div className="w-24 h-24 rounded-full mx-auto overflow-hidden">
+                {/* Updated to use Image component */}
+                <Image 
+                  src={profilePicture || '/default-profile.png'} 
+                  alt="Profile" 
+                  width={96} 
+                  height={96} 
+                  className="object-cover border-2 border-blue-500 shadow-lg"
+                />
+              </div>
               <input type="file" id="profilePicture" className="hidden" onChange={handleProfilePictureChange} />
             </label>
           </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { client } from "@/sanity/lib/client";
 import { motion } from "framer-motion";
@@ -115,10 +116,12 @@ const Header = () => {
                 className="p-4 hover:bg-blue-100 cursor-pointer flex items-center"
                 onClick={() => handleCarClick(car)}
               >
-                <img
+                <Image
                   src={car.imageUrl}
                   alt={car.name}
-                  className="w-16 h-16 rounded-lg object-contain mr-4" // Adjusted image style
+                  width={64} // Adjust width and height as needed
+                  height={64}
+                  className="w-14 h-12 rounded-lg  mr-4"
                 />
                 <div>
                   <p className="font-semibold text-gray-800">{car.name}</p>
@@ -154,12 +157,14 @@ const Header = () => {
           className="relative flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 via-indigo-200 to-teal-300 hover:scale-110 transform transition-all duration-300 shadow-xl"
           onClick={() => router.push("/profile")}
           whileHover={{ scale: 1.1 }}
-          aria-label="Profile"
-        >
-          <img
+            aria-label="Profile"
+          >
+            <Image
             src="/profiles.png"
             alt="Profile"
-            className="w-10 h-10 rounded-full border-4 border-white shadow-lg"
+            width={40}
+            height={40}
+            className="rounded-full border-4 border-white shadow-lg"
           />
           <motion.div
             className="absolute top-0 left-0 right-0 bottom-0 rounded-full bg-gradient-to-r from-transparent via-pink-200 to-transparent opacity-60"

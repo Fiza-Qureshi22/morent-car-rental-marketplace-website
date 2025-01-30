@@ -1,10 +1,18 @@
-"use client";
+'use client';
 
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
 export default function BookingNowPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BookingContent />
+    </Suspense>
+  );
+}
+
+function BookingContent() {
   const searchParams = useSearchParams();
 
   const name = searchParams?.get("name") || "Car Name";
@@ -54,13 +62,11 @@ export default function BookingNowPage() {
       <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-lg p-6 sm:p-8">
         {/* Car Image */}
         {imageUrl ? (
-   <div className="relative h-32 sm:h-50 w-80 rounded-lg overflow-hidden mb-6">
-  <Image
+          <div className="relative h-32 sm:h-50 w-80 rounded-lg overflow-hidden mb-6">
+            <Image
               src={imageUrl}
               alt={`${name} image`}
               layout="fill"
-             
-             
             />
           </div>
         ) : (

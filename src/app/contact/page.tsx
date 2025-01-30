@@ -38,7 +38,7 @@ const ContactPage = () => {
       <header className="text-center mb-8">
         <h1 className="text-4xl font-bold text-blue-600">Contact Us</h1>
         <p className="mt-2 text-lg text-gray-700">
-          Have any questions or need assistance? We're here to help with our luxurious cars!
+          Have any questions or need assistance? We are here to help with our luxurious cars!
         </p>
       </header>
 

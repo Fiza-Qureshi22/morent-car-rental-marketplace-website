@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation'; // ✅ Correct for App Router
 
 
@@ -103,7 +104,7 @@ const RentNow: React.FC = () => {
             className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 cursor-pointer"
             onClick={() => openModal(car)}
           >
-            <img src={car.image} alt={car.model} className="w-full h-48 object-cover" />
+            <Image src={car.image} alt={car.model} width={500} height={300} className="w-full h-48 object-cover" />
             <div className="p-6">
               <h3 className="text-2xl font-semibold text-gray-800">{car.model}</h3>
               <p className="text-sm text-gray-600 mt-2">{car.type}</p>
@@ -135,9 +136,11 @@ const RentNow: React.FC = () => {
             >
               ×
             </button>
-            <img
+            <Image
               src={selectedCar.image}
               alt={selectedCar.model}
+              width={500}
+              height={300}
               className="w-full h-48 object-cover mb-4"
             />
             <h3 className="text-3xl font-semibold text-gray-800">{selectedCar.model}</h3>

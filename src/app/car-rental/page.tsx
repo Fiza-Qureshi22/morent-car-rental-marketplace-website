@@ -3,23 +3,23 @@
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation"; // Import useRouter hook
+import { useRouter } from "next/navigation";
+import { Suspense } from "react";
 
-export default function CarRentalPage() {
+function CarRentalPage() {
   const searchParams = useSearchParams();
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter();
 
-  const name = searchParams?.get("name") || "";
-  const type = searchParams?.get("type") || "";
-  const price = searchParams?.get("price") || "";
-  const imageUrl = searchParams?.get("imageUrl") || "";
-  const fuel = searchParams?.get("fuel") || "";
-  const seating = searchParams?.get("seating") || "";
-  const transmission = searchParams?.get("transmission") || "";
+  const name = searchParams?.get("name") || "Unknown Car";
+  const type = searchParams?.get("type") || "Not specified";
+  const price = searchParams?.get("price") || "N/A";
+  const imageUrl = searchParams?.get("imageUrl") || "/default-car.png"; // Default image
+  const fuel = searchParams?.get("fuel") || "N/A";
+  const seating = searchParams?.get("seating") || "N/A";
+  const transmission = searchParams?.get("transmission") || "N/A";
 
-  // Function to handle booking button click
   const handleBooking = () => {
-    router.push(`/booking-now?name=${name}&price=${price}&imageUrl=${imageUrl}`); // Pass imageUrl to the booking page
+    router.push(`/booking-now?name=${name}&price=${price}&imageUrl=${imageUrl}`);
   };
 
   return (
@@ -29,7 +29,9 @@ export default function CarRentalPage() {
         <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">
           Morent
         </h1>
-        <p className="text-lg sm:text-xl text-gray-700 mt-2">Experience luxury car rentals with comfort and ease</p>
+        <p className="text-lg sm:text-xl text-gray-700 mt-2">
+          Experience luxury car rentals with comfort and ease
+        </p>
       </header>
 
       {/* Car Details Section */}
@@ -45,14 +47,14 @@ export default function CarRentalPage() {
             initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="relative h-40 sm:h-48 w-150 rounded-lg overflow-hidden"
+            className="relative h-40 sm:h-48 w-full rounded-lg overflow-hidden"
           >
             <Image
               src={imageUrl}
               alt={`${name} image`}
-              layout="fill"
-             
-              className="rounded-lg"
+              fill
+              className="rounded-lg object-cover"
+              priority
             />
           </motion.div>
 
@@ -79,27 +81,22 @@ export default function CarRentalPage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="mt-8 px-6 py-3 text-lg sm:text-xl font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-700 rounded-lg shadow-md hover:from-blue-600 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300"
-              onClick={handleBooking} // Use the handler here
+              onClick={handleBooking}
             >
               Confirm Booking
             </motion.button>
           </div>
         </div>
       </motion.div>
-
-      {/* Additional Information */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.8 }}
-        className="mt-12 max-w-4xl mx-auto bg-gradient-to-br from-white to-blue-50 p-6 sm:p-8 rounded-3xl shadow-md"
-      >
-        <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">Why Choose Morent?</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* Additional Info Cards */}
-          {/* (Same as before) */}
-        </div>
-      </motion.div>
     </div>
+  );
+}
+
+// Wrap inside Suspense for useSearchParams()
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CarRentalPage />
+    </Suspense>
   );
 }

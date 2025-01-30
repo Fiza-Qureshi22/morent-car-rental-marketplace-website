@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FaCar, FaCalendarAlt, FaUserCircle } from "react-icons/fa";
 
@@ -45,9 +46,8 @@ const Dashboard: React.FC = () => {
                 <p className="mb-2"><strong>Car:</strong> {bookingDetails.name}</p>
                 <p className="mb-2"><strong>Price:</strong> {bookingDetails.price}</p>
                 <p className="mb-2"><strong>Booking Date:</strong> {bookingDetails.date}</p>
-                {bookingDetails.imageUrl && (
-                  <img src={bookingDetails.imageUrl} alt="Car" className="w-90 h-40 rounded-lg" />
-                )}
+                    <Image src={bookingDetails.image} alt="Car" width={360} height={160} className="rounded-lg" />
+                    <Image src={bookingDetails.image} alt="Car" className="w-90 h-40 rounded-lg" />
               </div>
             ) : (
               <p className="text-gray-500">No booking details available.</p>

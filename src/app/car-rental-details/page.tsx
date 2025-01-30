@@ -1,11 +1,11 @@
 'use client';
+import Image from 'next/image';
+import React, { useEffect, useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 
-import React, { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-
-const CarRentalDetails = () => {
+const CarRentalDetailsContent = () => {
   const searchParams = useSearchParams();
-  const type = searchParams ? searchParams.get('type') : null;
+  const type = searchParams?.get('type') || 'Unknown Vehicle';
   const [rentalInfo, setRentalInfo] = useState<string | null>(null);
   const [cartAdded, setCartAdded] = useState(false);
 
@@ -29,10 +29,6 @@ const CarRentalDetails = () => {
     setCartAdded(true);
   };
 
-  if (!type) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <section className="relative bg-[#F6F7F9] py-10 px-6 sm:px-12 md:px-16">
       <div className="flex flex-col items-center">
@@ -47,10 +43,12 @@ const CarRentalDetails = () => {
         <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-4xl mb-8">
           {/* Car Image */}
           <div className="w-full md:w-1/2 h-[300px] md:h-auto overflow-hidden">
-            <img
+            <Image
               src={carDetails.imageUrl}
               alt={carDetails.model}
-              className="w-600 h-500 object-cover"
+              width={600}
+              height={500}
+              className="object-cover"
             />
           </div>
           {/* Car Info */}
@@ -83,12 +81,21 @@ const CarRentalDetails = () => {
           <h3 className="text-2xl font-bold text-center text-gray-800 mb-6">More about this car</h3>
           <p className="text-lg text-gray-700">
             The {carDetails.make} {carDetails.model} offers an exceptional driving experience with modern
-            features, stylish design, and top-notch safety ratings. It's perfect for both city drives and road trips.
+            features, stylish design, and top-notch safety ratings. It’s perfect for both city drives and road trips.
             Rent it today to experience comfort and reliability at its finest.
           </p>
         </div>
       </div>
     </section>
+  );
+};
+
+// Wrapping in Suspense
+const CarRentalDetails = () => {
+  return (
+    <Suspense fallback={<div>Loading car rental details...</div>}>
+      <CarRentalDetailsContent />
+    </Suspense>
   );
 };
 
