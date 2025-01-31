@@ -2,9 +2,12 @@
   "name": "nextjs-ecommerce-website",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
-     "analyze": "next build && next analyze",
+    "analyze": "next build && next analyze",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -53,6 +56,7 @@
     "@types/node-fetch": "^2.6.12",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18",
+    "critters": "^0.0.23",
     "eslint": "^8.50.0",
     "eslint-config-next": "^13.5.8",
     "eslint-plugin-tailwindcss": "^3.13.2",

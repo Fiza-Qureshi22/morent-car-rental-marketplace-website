@@ -2,8 +2,9 @@
 import { createClient } from 'next-sanity';
 
 export const client = createClient({
-  projectId: 'hrt7a6r2', // Sanity project ID
-  dataset: 'production', // Dataset ka naam
-  apiVersion: '2023-01-01', // API version
-  useCdn: false, // Realtime data ke liye
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET, 
+  apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION, 
+  token: process.env.SANITY_API_TOKEN, 
+  useCdn: false, 
 });
