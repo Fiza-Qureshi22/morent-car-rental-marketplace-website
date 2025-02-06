@@ -11,7 +11,7 @@ const Logout: React.FC = () => {
     localStorage.removeItem('userToken');
     
     // Redirect user to the login page
-    router.push('/login');
+    router.push('/sign-in');
   };
 
   return (

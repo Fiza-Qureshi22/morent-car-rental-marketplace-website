@@ -1,167 +1,292 @@
-"use client";
-import React, { useState } from "react";
+'use client';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { 
+  FiMail, 
+  FiMapPin, 
+  FiPhone, 
+  FiClock, 
+  FiCheckCircle, 
+  FiUser, 
+  FiCalendar 
+} from 'react-icons/fi';
+import { FaWhatsapp, FaInstagram, FaFacebookF, FaCar, FaLinkedinIn } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
+
+// Type definitions
+type FormState = 'idle' | 'submitting' | 'submitted';
+
+interface InputFieldProps {
+  label: string;
+  name: string;
+  type?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  icon: React.ReactNode;
+}
+
+interface ContactInfoItemProps {
+  icon: React.ReactNode;
+  title: string;
+  content: string;
+  href?: string;
+}
+
+interface SocialIconProps {
+  icon: React.ReactNode;
+  href: string;
+}
 
 const ContactPage = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    carName: "",
-    price: "",
-    message: "",
+    name: '',
+    email: '',
+    carModel: '',
+    rentalDate: '',
+    message: '',
   });
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formState, setFormState] = useState<FormState>('idle');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here, you could send the form data to an API or email service
-    setFormSubmitted(true);
+    setFormState('submitting');
+    
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    setFormState('submitted');
     setFormData({
-      name: "",
-      email: "",
-      carName: "",
-      price: "",
-      message: "",
+      name: '',
+      email: '',
+      carModel: '',
+      rentalDate: '',
+      message: '',
     });
   };
 
   return (
-    <div className="flex flex-col items-center bg-gray-50 min-h-screen py-12 px-6 sm:px-8">
-      {/* Header */}
-      <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-blue-600">Contact Us</h1>
-        <p className="mt-2 text-lg text-gray-700">
-          Have any questions or need assistance? We are here to help with our luxurious cars!
-        </p>
-      </header>
+    <div className="min-h-screen bg-gradient-to-b from-blue-500 to-white">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-blue-800 to-blue-600 text-white py-20 px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-6xl mx-auto text-center"
+        >
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact MoRenT Luxury Rentals</h1>
+          <p className="text-xl text-blue-100">Experience Premium Service & Support</p>
+        </motion.div>
+      </div>
 
-      {/* Contact Form */}
-      <div className="bg-white shadow-lg rounded-lg w-full max-w-xl p-6">
-        {formSubmitted ? (
-          <div className="text-center">
-            <h2 className="text-xl font-semibold text-green-600">Thank you for reaching out!</h2>
-            <p className="mt-4 text-gray-600">We will get back to you with the details shortly.</p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-semibold text-gray-700">
-                Your Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                className="mt-2 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                required
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="grid md:grid-cols-2 gap-12">
+          {/* Contact Form */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="bg-white rounded-2xl shadow-xl p-8"
+          >
+            <h2 className="text-2xl font-bold text-gray-800 mb-8">Enquiry Form</h2>
+            
+            {formState === 'submitted' ? (
+              <div className="text-center p-8 space-y-4">
+                <FiCheckCircle className="text-6xl text-green-500 mx-auto" />
+                <h3 className="text-xl font-semibold">Message Sent Successfully!</h3>
+                <p className="text-gray-600">Our team will contact you within 24 hours</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-4">
+                  <InputField
+                    label="Full Name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    icon={<FiUser className="text-gray-400" />}
+                  />
+                  <InputField
+                    label="Email Address"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    icon={<FiMail className="text-gray-400" />}
+                  />
+                  <InputField
+                    label="Car Model Interest"
+                    name="carModel"
+                    value={formData.carModel}
+                    onChange={handleInputChange}
+                    icon={<FaCar className="text-gray-400" />}
+                  />
+                  <InputField
+                    label="Preferred Rental Date"
+                    name="rentalDate"
+                    type="date"
+                    value={formData.rentalDate}
+                    onChange={handleInputChange}
+                    icon={<FiCalendar className="text-gray-400" />}
+                  />
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Your Message
+                    </label>
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      rows={4}
+                      placeholder="Specify your requirements..."
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={formState === 'submitting'}
+                  className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                >
+                  {formState === 'submitting' ? (
+                    <>
+                      <Spinner />
+                      Sending...
+                    </>
+                  ) : (
+                    'Send Enquiry'
+                  )}
+                </button>
+              </form>
+            )}
+          </motion.div>
+
+          {/* Contact Info */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="space-y-8"
+          >
+            <div className="bg-white rounded-2xl shadow-xl p-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">Contact Information</h2>
+              
+              <ContactInfoItem
+                icon={<FiMapPin className="text-blue-600" />}
+                title="Headquarters"
+                content="MoRenT Luxury Rentals, Karachi, Pakistan"
               />
+              <ContactInfoItem
+                icon={<FiPhone className="text-blue-600" />}
+                title="24/7 Support"
+                content="+92 312 363 2197"
+                href="tel:+923123632197"
+              />
+              <ContactInfoItem
+                icon={<FiMail className="text-blue-600" />}
+                title="Email"
+                content="FizaNaazz32@gmail.com"
+                href="mailto:FizaNaazz32@gmail.com"
+              />
+              <ContactInfoItem
+                icon={<FiClock className="text-blue-600" />}
+                title="Working Hours"
+                content="Mon-Sun: 24/7 Availability"
+              />
+
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Connect With Us</h3>
+                <div className="flex gap-4">
+                  <SocialIcon
+                    icon={<FaWhatsapp className="text-2xl" />}
+                    href="https://wa.me/923123632197"
+                  />
+                  <SocialIcon
+                    icon={<FaLinkedinIn className="text-2xl" />}
+                    href="https://www.linkedin.com/in/fiza-nazz-b86437318/"
+                  />
+                  <SocialIcon
+                    icon={<FaFacebookF className="text-2xl" />}
+                    href="https://facebook.com/morent"
+                  />
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
-                Your Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="mt-2 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="carName" className="block text-sm font-semibold text-gray-700">
-                Car Model Name
-              </label>
-              <input
-                type="text"
-                id="carName"
-                name="carName"
-                value={formData.carName}
-                onChange={handleInputChange}
-                className="mt-2 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="price" className="block text-sm font-semibold text-gray-700">
-                Car Price
-              </label>
-              <input
-                type="text"
-                id="price"
-                name="price"
-                value={formData.price}
-                onChange={handleInputChange}
-                className="mt-2 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="message" className="block text-sm font-semibold text-gray-700">
-                Your Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleInputChange}
-                className="mt-2 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                rows={5}
-                required
-              />
-            </div>
-
-            <div className="text-center">
+            <div className="bg-blue-600 rounded-2xl shadow-xl p-8 text-white">
+              <h3 className="text-xl font-bold mb-4">Instant Quote</h3>
+              <p className="mb-6">Get immediate pricing for your selected vehicle and duration</p>
               <button
-                type="submit"
-                className="bg-blue-600 text-white py-3 px-6 rounded-lg w-full hover:bg-blue-500 focus:ring-2 focus:ring-blue-300"
+                onClick={() => router.push('/quote')}
+                className="w-full bg-white text-blue-600 py-3 px-6 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
               >
-                Send Message
+                Get Instant Quote
               </button>
             </div>
-          </form>
-        )}
-      </div>
-
-      {/* Contact Information */}
-      <div className="mt-12 text-center">
-        <h3 className="text-2xl font-semibold text-gray-800">Our Contact Info</h3>
-        <p className="mt-4 text-lg text-gray-600">MoRenT</p>
-        <p className="mt-2 text-gray-600">karachi pakistan </p>
-        <p className="mt-4 text-lg text-gray-600">Phone: +92 3123632197</p>
-        <p className="mt-2 text-lg text-gray-600">Email: FizaNaazz32@gmail.com</p>
-      </div>
-
-      {/* Request a Quote CTA */}
-      <div className="mt-12 text-center">
-        <h3 className="text-2xl font-semibold text-gray-800">Interested in a Quote?</h3>
-        <p className="mt-4 text-lg text-gray-600">
-          If you’re interested in purchasing or renting one of our cars, please fill out the form or get in touch for a personalized quote!
-        </p>
-        <button
-          className="mt-6 bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-500 focus:ring-2 focus:ring-green-300"
-          onClick={() => alert("Request a Quote functionality coming soon!")}
-        >
-          Request a Quote
-        </button>
+          </motion.div>
+        </div>
       </div>
     </div>
   );
 };
+
+// Reusable Components with TypeScript
+const InputField: React.FC<InputFieldProps> = ({ 
+  label, 
+  name, 
+  type = 'text', 
+  value, 
+  onChange, 
+  icon 
+}) => (
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
+    <div className="relative">
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        className="w-full pl-11 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        required
+      />
+      <div className="absolute left-3 top-3.5 text-xl">{icon}</div>
+    </div>
+  </div>
+);
+
+const ContactInfoItem: React.FC<ContactInfoItemProps> = ({ icon, title, content, href }) => (
+  <div className="flex gap-4 mb-6">
+    <div className="mt-1">{icon}</div>
+    <div>
+      <h4 className="font-semibold text-gray-800">{title}</h4>
+      {href ? (
+        <a href={href} className="text-gray-600 hover:text-blue-600 transition-colors">
+          {content}
+        </a>
+      ) : (
+        <p className="text-gray-600">{content}</p>
+      )}
+    </div>
+  </div>
+);
+
+const SocialIcon: React.FC<SocialIconProps> = ({ icon, href }) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="p-3 bg-blue-50 rounded-full hover:bg-blue-100 transition-colors text-blue-600"
+  >
+    {icon}
+  </a>
+);
+
+const Spinner = () => (
+  <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" />
+);
 
 export default ContactPage;

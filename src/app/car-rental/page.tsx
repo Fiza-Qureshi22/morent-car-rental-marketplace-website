@@ -4,22 +4,26 @@ import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 
 function CarRentalPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [updatedPrice, setUpdatedPrice] = useState(searchParams?.get("price") || "N/A");
 
   const name = searchParams?.get("name") || "Unknown Car";
   const type = searchParams?.get("type") || "Not specified";
-  const price = searchParams?.get("price") || "N/A";
   const imageUrl = searchParams?.get("imageUrl") || "/default-car.png"; // Default image
   const fuel = searchParams?.get("fuel") || "N/A";
   const seating = searchParams?.get("seating") || "N/A";
   const transmission = searchParams?.get("transmission") || "N/A";
 
   const handleBooking = () => {
-    router.push(`/booking-now?name=${name}&price=${price}&imageUrl=${imageUrl}`);
+    // Update rent price when confirming booking
+    setUpdatedPrice("$120/day"); // Example price change, you can modify as needed
+    
+    // Redirect to contact page with car details
+    router.push(`/contact?name=${name}&price=${updatedPrice}&imageUrl=${imageUrl}`);
   };
 
   return (
@@ -75,7 +79,7 @@ function CarRentalPage() {
             <div className="text-gray-600 text-lg sm:text-xl flex items-center gap-2">
               <span className="text-blue-600">🔧</span> <span>Transmission: {transmission}</span>
             </div>
-            <p className="text-2xl sm:text-3xl font-extrabold text-gray-800">Rent Price: {price}</p>
+            <p className="text-2xl sm:text-3xl font-extrabold text-gray-800">Rent Price: {updatedPrice}</p>
 
             <motion.button
               whileHover={{ scale: 1.05 }}

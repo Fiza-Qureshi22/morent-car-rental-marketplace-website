@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { FaCalendarAlt, FaCar } from 'react-icons/fa';
+import { FaCalendarAlt, FaCar, FaMoon, FaSun } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 const CalendarPage: React.FC = () => {
@@ -28,21 +28,32 @@ const CalendarPage: React.FC = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-2xl bg-white shadow-xl rounded-3xl p-8 border-t-4 border-blue-500 relative overflow-hidden"
+        className="w-full max-w-2xl bg-white shadow-2xl rounded-3xl p-8 border-t-4 border-blue-500 relative overflow-hidden"
         style={{
           background: darkMode ? '#1B2A41' : 'rgba(255, 255, 255, 0.9)',
           backdropFilter: 'blur(10px)',
-          boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.2)',
+          boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.3)',
         }}
       >
+        {/* Dark Mode Toggle */}
+        <button
+          className="absolute top-6 left-6 text-xl text-blue-500 focus:outline-none"
+          onClick={() => {
+            setDarkMode(!darkMode);
+            localStorage.setItem('darkMode', JSON.stringify(!darkMode));
+          }}
+        >
+          {darkMode ? <FaSun /> : <FaMoon />}
+        </button>
+
         {/* Decorative Car Icon */}
-        <div className="absolute top-5 right-6 text-blue-500 text-4xl opacity-20">
+        <div className="absolute top-5 right-6 text-blue-500 text-5xl opacity-10">
           <FaCar />
         </div>
         
         <h2 className="text-3xl font-semibold text-center flex items-center justify-center space-x-2 text-blue-600">
           <FaCalendarAlt className="text-blue-500" />
-          <span>Book Your Rental Date</span>
+          <span>Select Your Rental Date</span>
         </h2>
 
         {/* Calendar Component */}
@@ -53,9 +64,14 @@ const CalendarPage: React.FC = () => {
             className="rounded-lg border-none shadow-md w-full p-4"
           />
           {selectedDate && (
-            <p className="mt-4 text-lg font-medium text-blue-500">
+            <motion.p 
+              initial={{ opacity: 0, y: 10 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ duration: 0.3 }}
+              className="mt-4 text-lg font-medium text-blue-500"
+            >
               Selected Date: {selectedDate.toDateString()}
-            </p>
+            </motion.p>
           )}
         </div>
       </motion.div>

@@ -138,39 +138,19 @@ const Header = () => {
         <motion.button
           className="px-8 py-4 text-white bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full shadow-xl transform hover:scale-110 hover:shadow-2xl transition-all duration-500"
           whileHover={{ scale: 1.05 }}
-          onClick={() => router.push("/login")}
-          aria-label="Login"
+          onClick={() => router.push("/sign-in")}
+          aria-label="sign-in"
         >
-          Login
+          <span className="font-semibold text-lg">Sign In</span>
         </motion.button>
 
         <motion.button
           className="px-8 py-4 text-white bg-gradient-to-r from-blue-400 to-cyan-600 rounded-full shadow-xl transform hover:scale-110 hover:shadow-2xl transition-all duration-500"
           whileHover={{ scale: 1.05 }}
-          onClick={() => router.push("/signup")}
-          aria-label="Signup"
+          onClick={() => router.push("/sign-up")}
+          aria-label="Sign-up"
         >
-          Signup
-        </motion.button>
-
-        <motion.button
-          className="relative flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 via-indigo-200 to-teal-300 hover:scale-110 transform transition-all duration-300 shadow-xl"
-          onClick={() => router.push("/profile")}
-          whileHover={{ scale: 1.1 }}
-            aria-label="Profile"
-          >
-            <Image
-            src="/profiles.png"
-            alt="Profile"
-            width={40}
-            height={40}
-            className="rounded-full border-4 border-white shadow-lg"
-          />
-          <motion.div
-            className="absolute top-0 left-0 right-0 bottom-0 rounded-full bg-gradient-to-r from-transparent via-pink-200 to-transparent opacity-60"
-            animate={{ opacity: [0.1, 0.4, 0.1] }}
-            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          />
+          <span className="font-semibold text-lg">Sign Up</span>
         </motion.button>
       </div>
 

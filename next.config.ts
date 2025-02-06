@@ -1,20 +1,19 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true, // React errors ko catch karega
-  swcMinify: true, // JavaScript ko minify karega
+  reactStrictMode: true,
+  swcMinify: true,
   images: {
-    domains: ['cdn.sanity.io'], // Sanity CDN ko allow karna
-    minimumCacheTTL: 60, // Image caching ko optimize karega
+    domains: ['cdn.sanity.io'],
+    minimumCacheTTL: 60,
   },
   webpack(config) {
-    // Add .mjs extension to module resolution
     config.resolve.extensions.push('.mjs');
     return config;
   },
   experimental: {
-    optimizeCss: true, // CSS ko optimize karega
-    scrollRestoration: true, // Page reload ke baad scroll position restore karega
+    optimizeCss: true,
+    scrollRestoration: true,
   },
   async headers() {
     return [
@@ -23,6 +22,14 @@ const nextConfig: NextConfig = {
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
         ],
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/studio',
+        destination: 'http://localhost:3333', // Sanity Studio ki URL
       },
     ];
   },

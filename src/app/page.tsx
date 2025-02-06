@@ -12,6 +12,7 @@ import Car from "@/sanity/schemaTypes/car";
 
 
 
+
 const page = () => {
   return (
     <div>
@@ -23,6 +24,7 @@ const page = () => {
       <Dashboard />
       <Contact />
       <Footer />
+     
     </div>
   )
 }
